@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Issues template url generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <h1>Issues template url generator</h1>
+    <div id="app">
+        <div>Project url:</div>
+        <input v-model="project" size="72">
+        <div>Issue title:</div>
+        <input v-model="title" size="72">
+        <div>Issue body:</div>
+        <textarea v-model="body" cols="80" rows="20"></textarea>
+        <p>URL: <input v-model="templateUrl"> <a v-bind:href="templateUrl" target="_blank">click</a></p>
+    </div>
+    <script>
+        var app = new Vue({
+          el: '#app',
+          data: {
+            project: '',
+            title: '',
+            body: ''
+          },
+          computed: {
+            templateUrl: function() {
+              var url = ""
+              if (this.project == "") {
+                return url
+              }
+              url += this.project + "/issues/new"
+              var params = []
+              if (this.title) {
+                params.push("title=" + encodeURIComponent(this.title))
+              }
+              if (this.body) {
+                params.push("body=" + encodeURIComponent(this.body))
+              }
+              if (params) {
+                 url+="?"+params.join("&")
+              }
+              return url
+            }
+          }
+        })
+    </script>
+</body>
+</html>
